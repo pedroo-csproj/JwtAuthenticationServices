@@ -16,11 +16,11 @@ internal class JwtServices : IJwtServices
 
     public string Generate(string email)
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["IssuerSigningKey"]));
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtAuthenticationSettings:IssuerSigningKey"]));
 
         var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
-        var tokenDescriptor = BuildTokenDescriptor(email, _configuration["ValidIssuer"], _configuration["ValidAudience"], signingCredentials);
+        var tokenDescriptor = BuildTokenDescriptor(email, _configuration["JwtAuthenticationSettings:ValidIssuer"], _configuration["JwtAuthenticationSettings:ValidAudience"], signingCredentials);
 
         return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
     }
